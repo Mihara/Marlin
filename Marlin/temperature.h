@@ -52,6 +52,17 @@ extern float current_temperature_bed;
 #ifdef PIDTEMPBED
   extern float bedKp,bedKi,bedKd;
 #endif
+
+  
+// PT1000 calibration data
+extern int minVE;
+extern int minRE;
+extern int maxVE;
+extern int maxRE;
+extern int minVB;
+extern int minRB;
+extern int maxVB;
+extern int maxRB;
   
 //high level conversion routines, for use outside of temperature.cpp
 //inline so that there is no performance decrease.

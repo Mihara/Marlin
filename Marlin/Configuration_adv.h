@@ -88,7 +88,7 @@
 //=============================Mechanical Settings===========================
 //===========================================================================
 
-#define ENDSTOPS_ONLY_FOR_HOMING // If defined the endstops will only be used for homing
+//#define ENDSTOPS_ONLY_FOR_HOMING // If defined the endstops will only be used for homing
 
 
 //// AUTOSET LOCATIONS OF LIMIT SWITCHES
@@ -153,9 +153,9 @@
 #endif
 
 //homing hits the endstop, then retracts by this distance, before it tries to slowly bump again:
-#define X_HOME_RETRACT_MM 5 
-#define Y_HOME_RETRACT_MM 5 
-#define Z_HOME_RETRACT_MM 1 
+#define X_HOME_RETRACT_MM 10
+#define Y_HOME_RETRACT_MM 10 
+#define Z_HOME_RETRACT_MM 5
 //#define QUICK_HOME  //if this is defined, if both x and y are to be homed, a diagonal move will be performed initially.
 
 #define AXIS_RELATIVE_MODES {false, false, false, false}
@@ -169,7 +169,7 @@
 #define INVERT_E_STEP_PIN false
 
 //default stepper release if idle
-#define DEFAULT_STEPPER_DEACTIVE_TIME 60
+#define DEFAULT_STEPPER_DEACTIVE_TIME 240
 
 #define DEFAULT_MINIMUMFEEDRATE       0.0     // minimum feedrate
 #define DEFAULT_MINTRAVELFEEDRATE     0.0
@@ -352,6 +352,18 @@ const unsigned int dropsegments=5; //everything with less than this number of st
 #endif
 #if TEMP_SENSOR_0 == -2
   #define HEATER_0_USES_MAX6675
+#endif
+#if TEMP_SENSOR_0 == -3
+  #define HEATER_0_USES_PT1000
+#endif
+#if TEMP_SENSOR_1 == -3
+  #define HEATER_1_USES_PT1000
+#endif
+#if TEMP_SENSOR_2 == -3
+  #define HEATER_2_USES_PT1000
+#endif
+#if TEMP_SENSOR_BED == -3
+  #define BED_USES_PT1000
 #endif
 #if TEMP_SENSOR_0 == 0
   #undef HEATER_0_MINTEMP

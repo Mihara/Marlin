@@ -1674,6 +1674,42 @@ void process_commands()
       }
       break;
     #endif //PIDTEMP
+	
+    // Reprapology PT1000 handling.
+	#if defined(HEATER_0_USES_PT1000) || defined(BED_USES_PT1000)
+ 
+     case 354: // M354
+       {
+         if(code_seen('A')) minVE = code_value();
+         if(code_seen('B')) minRE = code_value();
+         if(code_seen('C')) maxVE = code_value();
+         if(code_seen('D')) maxRE = code_value();
+         if(code_seen('H')) minVB = code_value();
+         if(code_seen('I')) minRB = code_value();
+         if(code_seen('J')) maxVB = code_value();
+         if(code_seen('K')) maxRB = code_value();
+         updatePID();
+         SERIAL_PROTOCOL(MSG_OK);
+         
+       }
+       break;
+       
+     case 355: // M355
+       {
+         SERIAL_PROTOCOLPGM("ok T:");
+         SERIAL_PROTOCOL_F(degHotend(0),1); 
+         SERIAL_PROTOCOLPGM(" RT:");
+         SERIAL_PROTOCOL(current_raw[0]/OVERSAMPLENR);
+         SERIAL_PROTOCOLPGM(" B:");  
+         SERIAL_PROTOCOL_F(degBed(),1);
+         SERIAL_PROTOCOLPGM(" RB:");
+         SERIAL_PROTOCOL(current_raw_bed/OVERSAMPLENR);
+         SERIAL_PROTOCOLLN("");
+       }
+       break;
+     #endif
+     	
+	
     case 240: // M240  Triggers a camera by emulating a Canon RC-1 : http://www.doc-diy.net/photo/rc-1_hacked/
      {
       #if defined(PHOTOGRAPH_PIN) && PHOTOGRAPH_PIN > -1
@@ -1749,6 +1785,82 @@ void process_commands()
     }
     break;
     #endif
+	
+	// Reprapology Z probe handling.
+	
+     #if Z_PROBE
+     
+     case 700: // M700: Touch the table with the probe, seeking P mm down.
+               // Declare this position Z as given or 0.0 if none given. 
+     {
+       LCD_MESSAGEPGM(MSG_PROBING);
+       saved_feedrate = feedrate;
+       saved_feedmultiply = feedmultiply;
+       feedmultiply = 100;
+       previous_millis_cmd = millis();
+       
+       enable_endstops(true);
+       start_z_probing();
+       
+       /// Probing logic here. Let's try something primitive first...
+       
+       current_position[Z_AXIS] = 0;
+       
+       for(int8_t i=0; i < NUM_AXIS; i++) {
+         destination[i] = current_position[i];
+       }
+       
+       plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+       if (code_seen('P') && code_value_long() != 0) {
+         destination[Z_AXIS] = code_value() * -1;
+       } else {
+         destination[Z_AXIS] = 1.5 * Z_MAX_LENGTH * -1; // We naturally always seek down.
+       }
+       feedrate = homing_feedrate[Z_AXIS];
+       plan_buffer_line(destination[X_AXIS], destination[Y_AXIS], destination[Z_AXIS], destination[E_AXIS], feedrate/60, active_extruder);
+       st_synchronize();
+       
+ 
+       if(code_seen(axis_codes[Z_AXIS]) && code_value_long() != 0) {
+         current_position[Z_AXIS]=code_value();
+       } else {
+         current_position[Z_AXIS]=0;
+       }
+       
+       plan_set_position(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS]);
+ 
+       stop_z_probing();
+       
+       #ifdef ENDSTOPS_ONLY_FOR_HOMING
+         enable_endstops(false);
+       #else 
+         enable_endstops(true);
+       #endif
+ 
+       feedrate = saved_feedrate;
+       feedmultiply = saved_feedmultiply;
+       previous_millis_cmd = millis();
+       endstops_hit_on_purpose();
+       LCD_MESSAGEPGM(MSG_PROBINGDONE);
+     }
+     break;
+     case 701: // M701: Wait until probe is successfully dropped.
+               // Should set an LCD message while waiting.
+     {
+       LCD_MESSAGEPGM(MSG_PROBEWAIT);
+       while (true) {
+           manage_heater();
+           bool probestate = READ(Z_MIN_PIN)^Z_PROBE_INVERTING;          
+           if (!probestate) break;
+           beep();
+           delay(100);
+         };
+       LCD_MESSAGEPGM(MSG_PROBEDROPPED);
+     }
+     break;
+     
+     #endif 	
+	
     #ifdef FILAMENTCHANGEENABLE
     case 600: //Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
     {

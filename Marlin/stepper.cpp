@@ -82,6 +82,10 @@ static bool old_z_max_endstop=false;
 
 static bool check_endstops = true;
 
+#if Z_PROBE
+static bool z_probing = false;
+#endif
+
 volatile long count_position[NUM_AXIS] = { 0, 0, 0, 0};
 volatile signed char count_direction[NUM_AXIS] = { 1, 1, 1, 1};
 
@@ -166,6 +170,17 @@ asm volatile ( \
 #define ENABLE_STEPPER_DRIVER_INTERRUPT()  TIMSK1 |= (1<<OCIE1A)
 #define DISABLE_STEPPER_DRIVER_INTERRUPT() TIMSK1 &= ~(1<<OCIE1A)
 
+
+#if Z_PROBE
+void start_z_probing()
+{
+  z_probing = true; 
+}
+void stop_z_probing()
+{
+   z_probing = false; 
+}
+#endif
 
 void checkHitEndstops()
 {
@@ -442,8 +457,17 @@ ISR(TIMER1_COMPA_vect)
       CHECK_ENDSTOPS
       {
         #if defined(Z_MIN_PIN) && Z_MIN_PIN > -1
-          bool z_min_endstop=(READ(Z_MIN_PIN) != Z_ENDSTOPS_INVERTING);
+          #if Z_PROBE
+            bool z_min_endstop=(READ(Z_MIN_PIN) != Z_PROBE_INVERTING);
+          #else
+            bool z_min_endstop=(READ(Z_MIN_PIN) != Z_ENDSTOPS_INVERTING);
+		  #endif
+		  
+          #if Z_PROBE
+          if(z_min_endstop && old_z_min_endstop && (current_block->steps_z > 0) && z_probing) {
+          #else		  
           if(z_min_endstop && old_z_min_endstop && (current_block->steps_z > 0)) {
+		  #endif
             endstops_trigsteps[Z_AXIS] = count_position[Z_AXIS];
             endstop_z_hit=true;
             step_events_completed = current_block->step_event_count;

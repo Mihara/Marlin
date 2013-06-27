@@ -13,6 +13,92 @@
 #define E1_MS2_PIN -1
 #define DIGIPOTSS_PIN -1
 
+
+#if MOTHERBOARD == 778 // Reprapology v1.3 motherboard.
+#define KNOWN_BOARD
+
+#define DEFAULT_minVE 31
+#define DEFAULT_minRE 616
+#define DEFAULT_maxVE 252
+#define DEFAULT_maxRE 963
+#define DEFAULT_minVB 23
+#define DEFAULT_minRB 596
+#define DEFAULT_maxVB 115
+#define DEFAULT_maxRB 792
+ 
+// X Axis.
+#define X_ENABLE_PIN       26
+#define X_STEP_PIN         43
+#define X_DIR_PIN          27
+#define X_MIN_PIN          28
+#define X_MAX_PIN          31
+ 
+// Y Axis
+#define Y_ENABLE_PIN       41
+#define Y_STEP_PIN         25
+#define Y_DIR_PIN          42
+#define Y_MIN_PIN          29
+#define Y_MAX_PIN          32
+ 
+// Z Axis
+#define Z_ENABLE_PIN       23
+#define Z_STEP_PIN         40
+#define Z_DIR_PIN          24
+#define Z_MIN_PIN          30
+#define Z_MAX_PIN          33
+ 
+// E Axis
+#define E0_ENABLE_PIN       38
+#define E0_STEP_PIN         22
+#define E0_DIR_PIN          39
+ 
+// Extruder heater
+#define HEATER_0_PIN       8
+#define TEMP_0_PIN         1
+ 
+// Bed heater. 
+#define HEATER_BED_PIN	   7
+#define TEMP_BED_PIN       2
+ 
+#define FAN_PIN             9
+#define BEEPER           37
+#define LED_PIN          13
+ 
+#define LCD_PINS_RS 49
+#define LCD_PINS_ENABLE 48
+#define LCD_PINS_D4 47
+#define LCD_PINS_D5 46 
+#define LCD_PINS_D6 45
+#define LCD_PINS_D7 44
+
+#define BTN_EN1 35
+#define BTN_EN2 36
+#define BTN_ENC 34  //the click
+    
+#define BLEN_C 2
+#define BLEN_B 1
+#define BLEN_A 0
+    
+//encoder rotation values
+#define encrot0 0
+#define encrot1 2
+#define encrot2 3
+#define encrot3 1
+
+// Unused features
+#define PS_ON_PIN          -1
+#define KILL_PIN           -1
+#define SDPOWER            -1
+#define SDSS               -1
+#define SDCARDDETECT -1		// Ramps does not use this port
+#define HEATER_1_PIN       -1
+#define TEMP_1_PIN         -1   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
+#define HEATER_2_PIN       -1
+#define TEMP_2_PIN         -1   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
+
+#endif
+  
+
 #if MOTHERBOARD == 99
 #define KNOWN_BOARD 1
 

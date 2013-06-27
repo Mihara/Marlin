@@ -56,6 +56,17 @@ float current_temperature_bed = 0.0;
   #endif
 #endif //PIDTEMP
 
+#if defined(HEATER_0_USES_PT1000) || defined(BED_USES_PT1000)
+   int minVE = DEFAULT_minVE;
+   int minRE = DEFAULT_minRE;
+   int maxVE = DEFAULT_maxVE;
+   int maxRE = DEFAULT_maxRE;
+   int minVB = DEFAULT_minVB;
+   int minRB = DEFAULT_minRB;
+   int maxVB = DEFAULT_maxVB;
+   int maxRB = DEFAULT_maxRB;
+#endif
+
 #ifdef PIDTEMPBED
   float bedKp=DEFAULT_bedKp;
   float bedKi=(DEFAULT_bedKi*PID_dT);
@@ -603,7 +614,12 @@ static float analog2temp(int raw, uint8_t e) {
       SERIAL_ERROR((int)e);
       SERIAL_ERRORLNPGM(" - Invalid extruder number !");
       kill();
-  } 
+  }
+   #ifdef HEATER_0_USES_PT1000
+   // Reprapology PT1000
+      return map(raw/OVERSAMPLENR,minRE,maxRE,minVE,maxVE); 
+   #else
+  
   #ifdef HEATER_0_USES_MAX6675
     if (e == 0)
     {
@@ -640,6 +656,11 @@ static float analog2temp(int raw, uint8_t e) {
 // Derived from RepRap FiveD extruder::getTemperature()
 // For bed temperature measurement.
 static float analog2tempBed(int raw) {
+
+ #ifdef BED_USES_PT1000
+     // Shirow: Bed PT1000 handling here.
+      return map(raw/OVERSAMPLENR,minRB,maxRB,minVB,maxVB); 
+  #endif
   #ifdef BED_USES_THERMISTOR
     float celsius = 0;
     byte i;
@@ -1092,7 +1113,14 @@ ISR(TIMER0_COMPB_vect)
         #else
           ADCSRB = 0;
         #endif
+
+        #ifdef HEATER_0_USES_PT1000
+        /// Using internal 1.1V reference.
+        ADMUX = ((1 << REFS1) | (TEMP_0_PIN & 0x07));
+        #else		
         ADMUX = ((1 << REFS0) | (TEMP_0_PIN & 0x07));
+		#endif
+		
         ADCSRA |= 1<<ADSC; // Start conversion
       #endif
       lcd_buttons_update();
@@ -1114,7 +1142,12 @@ ISR(TIMER0_COMPB_vect)
         #else
           ADCSRB = 0;
         #endif
+        #ifdef BED_USES_PT1000
+        /// Using internal 1.1V reference.
+        ADMUX = ((1 << REFS1) | (TEMP_BED_PIN & 0x07));
+		#else
         ADMUX = ((1 << REFS0) | (TEMP_BED_PIN & 0x07));
+		#endif
         ADCSRA |= 1<<ADSC; // Start conversion
       #endif
       lcd_buttons_update();
@@ -1133,7 +1166,14 @@ ISR(TIMER0_COMPB_vect)
         #else
           ADCSRB = 0;
         #endif
+		
+        #ifdef HEATER_1_USES_PT1000
+        /// Using internal 1.1V reference.
+        ADMUX = ((1 << REFS1) | (TEMP_1_PIN & 0x07));
+        #else		
         ADMUX = ((1 << REFS0) | (TEMP_1_PIN & 0x07));
+		#endif
+		
         ADCSRA |= 1<<ADSC; // Start conversion
       #endif
       lcd_buttons_update();
