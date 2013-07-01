@@ -74,23 +74,15 @@
 #define BTN_EN1 35
 #define BTN_EN2 36
 #define BTN_ENC 34  //the click
-    
-#define BLEN_C 2
-#define BLEN_B 1
-#define BLEN_A 0
-    
-//encoder rotation values
-#define encrot0 0
-#define encrot1 2
-#define encrot2 3
-#define encrot3 1
+
+// SD card is implemented, but not yet debugged...
+#define SDPOWER            -1
+#define SDSS               -1
+#define SDCARDDETECT -1		// Ramps does not use this port
 
 // Unused features
 #define PS_ON_PIN          -1
 #define KILL_PIN           -1
-#define SDPOWER            -1
-#define SDSS               -1
-#define SDCARDDETECT -1		// Ramps does not use this port
 #define HEATER_1_PIN       -1
 #define TEMP_1_PIN         -1   // MUST USE ANALOG INPUT NUMBERING NOT DIGITAL OUTPUT NUMBERING!!!!!!!!!
 #define HEATER_2_PIN       -1

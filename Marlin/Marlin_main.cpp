@@ -1699,11 +1699,11 @@ void process_commands()
          SERIAL_PROTOCOLPGM("ok T:");
          SERIAL_PROTOCOL_F(degHotend(0),1); 
          SERIAL_PROTOCOLPGM(" RT:");
-         SERIAL_PROTOCOL(current_raw[0]/OVERSAMPLENR);
+         SERIAL_PROTOCOL(degHotendRaw(0)/OVERSAMPLENR);
          SERIAL_PROTOCOLPGM(" B:");  
          SERIAL_PROTOCOL_F(degBed(),1);
          SERIAL_PROTOCOLPGM(" RB:");
-         SERIAL_PROTOCOL(current_raw_bed/OVERSAMPLENR);
+         SERIAL_PROTOCOL(degBedRaw()/OVERSAMPLENR);
          SERIAL_PROTOCOLLN("");
        }
        break;
@@ -1848,13 +1848,24 @@ void process_commands()
                // Should set an LCD message while waiting.
      {
        LCD_MESSAGEPGM(MSG_PROBEWAIT);
+
+       // Mihara: This should, in theory, be something else, and on later machines it will need changing.
+       #if defined(BEEPER) && BEEPER > -1
+           SET_OUTPUT(BEEPER);
+           WRITE(BEEPER,HIGH);
+       #endif
+
        while (true) {
            manage_heater();
+           lcd_update();
            bool probestate = READ(Z_MIN_PIN)^Z_PROBE_INVERTING;          
            if (!probestate) break;
-           beep();
-           delay(100);
+           
          };
+         
+       #if defined(BEEPER) && BEEPER > -1  
+       WRITE(BEEPER,LOW);
+       #endif
        LCD_MESSAGEPGM(MSG_PROBEDROPPED);
      }
      break;

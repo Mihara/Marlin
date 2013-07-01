@@ -1,6 +1,9 @@
 #ifndef ULTRA_LCD_IMPLEMENTATION_HITACHI_HD44780_H
 #define ULTRA_LCD_IMPLEMENTATION_HITACHI_HD44780_H
 
+// Needed to hack around UTF-8 problems.
+#include "language.h"
+
 /**
 * Implementation of the LCD display routines for a hitachi HD44780 display. These are common LCD character displays.
 * When selecting the rusian language, a slightly different LCD implementation is used to handle UTF8 characters.
@@ -188,7 +191,7 @@ extern volatile uint16_t buttons;  //an extended version of the last checked but
   
 #else
   // Standard directly connected LCD implementations
-  #if LANGUAGE_CHOICE == 6
+  #if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60
     #include "LiquidCrystalRus.h"
     #define LCD_CLASS LiquidCrystalRus
   #else 
@@ -510,6 +513,12 @@ static void lcd_implementation_drawmenu_generic(uint8_t row, const char* pstr, c
     #else
       uint8_t n = LCD_WIDTH - 1 - 2;
   #endif
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     lcd.setCursor(0, row);
     lcd.print(pre_char);
     while( ((c = pgm_read_byte(pstr)) != '\0') && (n>0) )
@@ -532,6 +541,12 @@ static void lcd_implementation_drawmenu_setting_edit_generic(uint8_t row, const 
     #else
       uint8_t n = LCD_WIDTH - 1 - 2 - strlen(data);
   #endif
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     lcd.setCursor(0, row);
     lcd.print(pre_char);
     while( ((c = pgm_read_byte(pstr)) != '\0') && (n>0) )
@@ -554,6 +569,12 @@ static void lcd_implementation_drawmenu_setting_edit_generic_P(uint8_t row, cons
     #else
       uint8_t n = LCD_WIDTH - 1 - 2 - strlen_P(data);
   #endif
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     lcd.setCursor(0, row);
     lcd.print(pre_char);
     while( ((c = pgm_read_byte(pstr)) != '\0') && (n>0) )
@@ -613,6 +634,7 @@ void lcd_implementation_drawedit(const char* pstr, char* value)
     #else
       lcd.setCursor(LCD_WIDTH -1 - strlen(value), 1);
    #endif
+
     lcd.print(value);
 }
 static void lcd_implementation_drawmenu_sdfile_selected(uint8_t row, const char* pstr, const char* filename, char* longFilename)
@@ -626,6 +648,12 @@ static void lcd_implementation_drawmenu_sdfile_selected(uint8_t row, const char*
         filename = longFilename;
         longFilename[LCD_WIDTH-1] = '\0';
     }
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
@@ -646,6 +674,12 @@ static void lcd_implementation_drawmenu_sdfile(uint8_t row, const char* pstr, co
         filename = longFilename;
         longFilename[LCD_WIDTH-1] = '\0';
     }
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
@@ -667,6 +701,12 @@ static void lcd_implementation_drawmenu_sddirectory_selected(uint8_t row, const 
         filename = longFilename;
         longFilename[LCD_WIDTH-2] = '\0';
     }
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);
@@ -688,6 +728,12 @@ static void lcd_implementation_drawmenu_sddirectory(uint8_t row, const char* pst
         filename = longFilename;
         longFilename[LCD_WIDTH-2] = '\0';
     }
+
+// Double N to prevent losing half the characters when using UTF-8. Not the correct solution, but should work for the moment.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60  
+  n+=n;
+#endif
+
     while( ((c = *filename) != '\0') && (n>0) )
     {
         lcd.print(c);

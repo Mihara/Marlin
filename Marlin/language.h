@@ -17,8 +17,10 @@
 // 8  Portuguese
 // 9  Finnish
 
+// 60  Russian for 16x2 LCD
+
 #ifndef LANGUAGE_CHOICE
-#define LANGUAGE_CHOICE 1  // Pick your language from the list above
+#define LANGUAGE_CHOICE 60  // Pick your language from the list above
 #endif
 
 #define PROTOCOL_VERSION "1.0"
@@ -43,6 +45,7 @@
 
 #define STRINGIFY_(n) #n
 #define STRINGIFY(n) STRINGIFY_(n)
+
 
 #if LANGUAGE_CHOICE == 1
 
@@ -199,6 +202,13 @@
 	#define MSG_ENDSTOPS_HIT "endstops hit: "
 	#define MSG_ERR_COLD_EXTRUDE_STOP " cold extrusion prevented"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " too long extrusion prevented"
+
+
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 
 #endif
 
@@ -360,6 +370,11 @@
 	#define MSG_ERR_COLD_EXTRUDE_STOP " uniemozliwiono zimna ekstruzje"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " uniemozliwiono zbyt dluga ekstruzje"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
 
 
@@ -524,6 +539,12 @@
 #define MSG_ERR_COLD_EXTRUDE_STOP " Extrusion a froid evitee"
 #define MSG_ERR_LONG_EXTRUDE_STOP " Extrusion longue evitee"
 	
+
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
 
 
@@ -686,6 +707,11 @@
 	#define MSG_ERR_COLD_EXTRUDE_STOP " cold extrusion prevented"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " too long extrusion prevented"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
 
 
@@ -847,6 +873,11 @@
 #define MSG_ERR_COLD_EXTRUDE_STOP " extrusion fria evitada"
 #define MSG_ERR_LONG_EXTRUDE_STOP " extrusion demasiado larga evitada"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
 
 #if LANGUAGE_CHOICE == 6
@@ -1001,6 +1032,11 @@
 #define MSG_ERR_COLD_EXTRUDE_STOP			" защита холодной экструзии"
 #define MSG_ERR_LONG_EXTRUDE_STOP			" защита превышения длинны экструзии"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
 
 
@@ -1161,6 +1197,11 @@
 	#define MSG_ERR_COLD_EXTRUDE_STOP " prevenuta estrusione fredda"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " prevenuta estrusione troppo lunga"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
 
 
@@ -1327,6 +1368,11 @@
 	#define MSG_ERR_COLD_EXTRUDE_STOP " Extrusao a frio evitada"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " Extrusao muito larga evitada"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 
 #endif
 
@@ -1488,5 +1534,192 @@
 	#define MSG_ERR_COLD_EXTRUDE_STOP " kylmana pursotus estetty"
 	#define MSG_ERR_LONG_EXTRUDE_STOP " liian pitka pursotus estetty"
 
+        // Reprapology series probe handling
+        #define MSG_PROBEWAIT "Drop probe"
+        #define MSG_PROBEDROPPED "Probe ready"
+        #define MSG_PROBING "Probing table"
+        #define MSG_PROBINGDONE "Probing done"
 #endif
+
+
+#if LANGUAGE_CHOICE == 60
+
+// LCD Menu Messages for Russian and 16x2 LCD.
+                                                //"0123456789ABCDEF"
+
+//#define WELCOME_MSG MACHINE_NAME			  " Готов"
+#define WELCOME_MSG "Готов."
+
+                                //"0123456789ABCDEF"
+#define MSG_NO_MOVE				  "Моторы включены."
+
+#define MSG_SD_INSERTED				  "Карта вставлена"
+#define MSG_SD_REMOVED				  "Карта извлечена"
+#define MSG_MAIN					  " Меню          \003"
+#define MSG_AUTOSTART				   " Автостарт    "
+#define MSG_DISABLE_STEPPERS			   " Моторы стоп  "
+#define MSG_AUTO_HOME				  " Хоуминг      "
+#define MSG_SET_ORIGIN				  " Запомнить ноль"
+#define MSG_PREHEAT_PLA				  " Прогрев PLA   "
+#define MSG_PREHEAT_PLA_SETTINGS			  " Настройка PLA "
+#define MSG_PREHEAT_ABS				  " Прогрев ABS     "
+#define MSG_PREHEAT_ABS_SETTINGS			  " Настройка ABS"
+#define MSG_COOLDOWN				  " Охлаждение         "
+#define MSG_EXTRUDE				  " Экструзия          "
+#define MSG_RETRACT				  " Откат"
+#define MSG_MOVE_AXIS				  " Движение \x7E"
+#define MSG_SPEED				  " Скорость"
+#define MSG_NOZZLE				  " \002 Сопло"
+#define MSG_NOZZLE1				  " \002 Сопло 2"
+#define MSG_NOZZLE2				  " \002 Сопло 3"
+#define MSG_BED					  " \002 Стол"
+#define MSG_FAN_SPEED				  " Кулер"
+#define MSG_FLOW					  " Поток"
+#define MSG_CONTROL				  " Настройки \003"
+#define MSG_MIN					  " \002 Мин."
+#define MSG_MAX					  " \002 Макс"
+#define MSG_FACTOR				  " \002 Фактор"
+#define MSG_AUTOTEMP				  " Autotemp"
+#define MSG_ON					  "Вкл. "
+#define MSG_OFF					  "Выкл. "
+#define MSG_PID_P				  " PID-P"
+#define MSG_PID_I				  " PID-I"
+#define MSG_PID_D				  " PID-D"
+#define MSG_PID_C				  " PID-C"
+
+#define MSG_ACC					  " Acc"
+#define MSG_VXY_JERK			  " Vxy-jerk"
+#define MSG_VZ_JERK               " Vz-jerk"
+#define MSG_VE_JERK               " Ve-jerk"
+#define MSG_VMAX				  " Vmax "
+#define MSG_X					  "x"
+#define MSG_Y					  "y"
+#define MSG_Z					  "z"
+#define MSG_E					  "e"
+#define MSG_VMIN				  " Vmin"
+#define MSG_VTRAV_MIN			  " VTrav min"
+#define MSG_AMAX				  " Amax "
+#define MSG_A_RETRACT			  " A-retract"
+#define MSG_XSTEPS				  " X ш/мм"
+#define MSG_YSTEPS				  " Y ш/mm"
+#define MSG_ZSTEPS				  " Z ш/mm"
+#define MSG_ESTEPS				  " E ш/mm"
+#define MSG_RECTRACT    		  " Откат подачи  \x7E"
+#define MSG_TEMPERATURE  		  " Температура   \x7E"
+#define MSG_MOTION				  " Скорости      \x7E"
+                                //"0123456789ABCDEF"
+#define MSG_WATCH				  " Состояние     \003"
+#define MSG_STORE_EPROM				  " Сохранить"
+#define MSG_LOAD_EPROM				  " Загрузить"
+#define MSG_RESTORE_FAILSAFE		  " Сбросить"
+#define MSG_REFRESH				  "\004Обновить           "
+
+                                //"0123456789ABCDEF"
+#define MSG_PREPARE				  " Подготовка  \x7E"
+#define MSG_TUNE				  " Правка      \x7E"
+#define MSG_PAUSE_PRINT			  " Пауза печати      \x7E"
+#define MSG_RESUME_PRINT				  " Продолжить        \x7E"
+#define MSG_STOP_PRINT				  " Остановить печать \x7E"
+#define MSG_CARD_MENU				  " Меню карты        \x7E"
+#define MSG_NO_CARD				  " Нет карты"
+#define MSG_DWELL				  "Ждем..."
+#define MSG_USERWAIT				  "Продолжить?"
+#define MSG_PART_RELEASE				  " Извлечение принта  "
+#define MSG_KILLED				  "СТОП. "
+#define MSG_STOPPED				  "Отбой. "
+#define MSG_CONTROL_RETRACT			  " Откат мм:"
+#define MSG_CONTROL_RETRACTF			  " Откат  F:"
+#define MSG_CONTROL_RETRACT_ZLIFT		  " Прыжок мм:"
+#define MSG_CONTROL_RETRACT_RECOVER		  " Возврат +мм:"
+#define MSG_CONTROL_RETRACT_RECOVERF		  " Возврат  F:"
+#define MSG_AUTORETRACT				  " АвтоОткат:"
+#define MSG_FILAMENTCHANGE                        "Замена прутка"
+
+#define MSG_RESUMING                              "Продолжаем"
+
+                           //"0123456789ABCDEF"
+#define MSG_HEATING          "Прогрев..."
+#define MSG_HEATING_COMPLETE "Прогрев готов."
+#define MSG_BED_HEATING      "Прогрев стола"
+#define MSG_BED_DONE         "Стол готов."
+
+        // Reprapology series probe handling
+                               //"01234567"
+        #define MSG_PROBEWAIT    "Зонд?"
+        #define MSG_PROBEDROPPED "Зонд ок"
+        #define MSG_PROBING      "Зондирую."
+        #define MSG_PROBINGDONE  "Ноль ок"
+
+
+// Serial Console Messages remain in English because supported hosts don't do UTF-8 under Windows.
+
+	#define MSG_Enqueing "enqueing \""
+	#define MSG_POWERUP "PowerUp"
+	#define MSG_EXTERNAL_RESET " External Reset"
+	#define MSG_BROWNOUT_RESET " Brown out Reset"
+	#define MSG_WATCHDOG_RESET " Watchdog Reset"
+	#define MSG_SOFTWARE_RESET " Software Reset"
+	#define MSG_MARLIN "Marlin "
+	#define MSG_AUTHOR " | Author: "
+	#define MSG_CONFIGURATION_VER " Last Updated: "
+	#define MSG_FREE_MEMORY " Free Memory: "
+	#define MSG_PLANNER_BUFFER_BYTES "  PlannerBufferBytes: "
+	#define MSG_OK "ok"
+	#define MSG_FILE_SAVED "Done saving file."
+	#define MSG_ERR_LINE_NO "Line Number is not Last Line Number+1, Last Line: "
+	#define MSG_ERR_CHECKSUM_MISMATCH "checksum mismatch, Last Line: "
+	#define MSG_ERR_NO_CHECKSUM "No Checksum with line number, Last Line: "
+	#define MSG_ERR_NO_LINENUMBER_WITH_CHECKSUM "No Line Number with checksum, Last Line: "
+	#define MSG_FILE_PRINTED "Done printing file"
+	#define MSG_BEGIN_FILE_LIST "Begin file list"
+	#define MSG_END_FILE_LIST "End file list"
+	#define MSG_M104_INVALID_EXTRUDER "M104 Invalid extruder "
+	#define MSG_M105_INVALID_EXTRUDER "M105 Invalid extruder "
+	#define MSG_M218_INVALID_EXTRUDER "M218 Invalid extruder "
+	#define MSG_ERR_NO_THERMISTORS "No thermistors - no temperature"
+	#define MSG_M109_INVALID_EXTRUDER "M109 Invalid extruder "
+	#define MSG_M115_REPORT "FIRMWARE_NAME:Marlin V1; Sprinter/grbl mashup for gen6 FIRMWARE_URL:" FIRMWARE_URL " PROTOCOL_VERSION:" PROTOCOL_VERSION " MACHINE_TYPE:" MACHINE_NAME " EXTRUDER_COUNT:" STRINGIFY(EXTRUDERS) "\n"
+	#define MSG_COUNT_X " Count X: "
+	#define MSG_ERR_KILLED "Printer halted. kill() called!"
+	#define MSG_ERR_STOPPED "Printer stopped due to errors. Fix the error and use M999 to restart. (Temperature is reset. Set it after restarting)"
+	#define MSG_RESEND "Resend: "
+	#define MSG_UNKNOWN_COMMAND "Unknown command: \""
+	#define MSG_ACTIVE_EXTRUDER "Active Extruder: "
+	#define MSG_INVALID_EXTRUDER "Invalid extruder"
+	#define MSG_X_MIN "x_min: "
+	#define MSG_X_MAX "x_max: "
+	#define MSG_Y_MIN "y_min: "
+	#define MSG_Y_MAX "y_max: "
+	#define MSG_Z_MIN "z_min: "
+	#define MSG_Z_MAX "z_max: "
+	#define MSG_M119_REPORT "Reporting endstop status"
+	#define MSG_ENDSTOP_HIT "TRIGGERED"
+	#define MSG_ENDSTOP_OPEN "open"
+	#define MSG_HOTEND_OFFSET "Hotend offsets:"
+
+	#define MSG_SD_CANT_OPEN_SUBDIR "Cannot open subdir"
+	#define MSG_SD_INIT_FAIL "SD init fail"
+	#define MSG_SD_VOL_INIT_FAIL "volume.init failed"
+	#define MSG_SD_OPENROOT_FAIL "openRoot failed"
+	#define MSG_SD_CARD_OK "SD card ok"
+	#define MSG_SD_WORKDIR_FAIL "workDir open failed"
+	#define MSG_SD_OPEN_FILE_FAIL "open failed, File: "
+	#define MSG_SD_FILE_OPENED "File opened: "
+	#define MSG_SD_SIZE " Size: "
+	#define MSG_SD_FILE_SELECTED "File selected"
+	#define MSG_SD_WRITE_TO_FILE "Writing to file: "
+	#define MSG_SD_PRINTING_BYTE "SD printing byte "
+	#define MSG_SD_NOT_PRINTING "Not SD printing"
+	#define MSG_SD_ERR_WRITE_TO_FILE "error writing to file"
+	#define MSG_SD_CANT_ENTER_SUBDIR "Cannot enter subdir: "
+
+	#define MSG_STEPPER_TOO_HIGH "Steprate too high: "
+	#define MSG_ENDSTOPS_HIT "endstops hit: "
+	#define MSG_ERR_COLD_EXTRUDE_STOP " cold extrusion prevented"
+	#define MSG_ERR_LONG_EXTRUDE_STOP " too long extrusion prevented"
+
+#endif
+
+
+
 #endif // ifndef LANGUAGE_H

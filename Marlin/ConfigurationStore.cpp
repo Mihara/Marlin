@@ -176,14 +176,14 @@ void Config_PrintSettings()
        SERIAL_ECHO_START;
        SERIAL_ECHOLNPGM("PT1000 settings:");
        SERIAL_ECHO_START;
-       SERIAL_ECHOPAIR("   M304 A",minVE); 
-       SERIAL_ECHOPAIR(" B" ,minRE); 
-       SERIAL_ECHOPAIR(" C" ,maxVE);
-       SERIAL_ECHOPAIR(" D" ,maxRE);
-       SERIAL_ECHOPAIR(" H" ,minVB); 
-       SERIAL_ECHOPAIR(" I" ,minRB);
-       SERIAL_ECHOPAIR(" J" ,maxVB); 
-       SERIAL_ECHOPAIR(" K" ,maxRB);
+       SERIAL_ECHOPAIR("   M354 A",(unsigned long) minVE ); 
+       SERIAL_ECHOPAIR(" B" ,(unsigned long) minRE ); 
+       SERIAL_ECHOPAIR(" C" ,(unsigned long) maxVE );
+       SERIAL_ECHOPAIR(" D" ,(unsigned long) maxRE );
+       SERIAL_ECHOPAIR(" H" ,(unsigned long) minVB ); 
+       SERIAL_ECHOPAIR(" I" ,(unsigned long) minRB );
+       SERIAL_ECHOPAIR(" J" ,(unsigned long) maxVB ); 
+       SERIAL_ECHOPAIR(" K" ,(unsigned long) maxRB );
        SERIAL_ECHOLN(""); 
     #endif
 } 
@@ -235,6 +235,7 @@ void Config_RetrieveSettings()
         EEPROM_READ_VAR(i,Ki);
         EEPROM_READ_VAR(i,Kd);
 
+        // PT1000 calibration values.
         EEPROM_READ_VAR(i,minVE);
         EEPROM_READ_VAR(i,minRE);
         EEPROM_READ_VAR(i,maxVE);

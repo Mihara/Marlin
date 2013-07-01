@@ -22,7 +22,13 @@ int absPreheatFanSpeed;
 typedef void (*menuFunc_t)();
 
 uint8_t lcd_status_message_level;
+
+// Mihara: Doing UTF-8 support this way was quite a silly idea which now forces me to do this nonsense.
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60
+char lcd_status_message[(LCD_WIDTH+1)*2] = WELCOME_MSG;
+#else
 char lcd_status_message[LCD_WIDTH+1] = WELCOME_MSG;
+#endif
 
 #ifdef DOGLCD
 #include "dogm_lcd_implementation.h"
@@ -210,6 +216,7 @@ static void lcd_return_to_status()
     currentMenu = lcd_status_screen;
 }
 
+#ifdef SDSUPPORT
 static void lcd_sdcard_pause()
 {
     card.pauseSDPrint();
@@ -230,6 +237,7 @@ static void lcd_sdcard_stop()
     }
     autotempShutdown();
 }
+#endif
 
 /* Menu implementation */
 static void lcd_main_menu()
@@ -618,6 +626,7 @@ static void lcd_control_retract_menu()
 }
 #endif
 
+#ifdef SDSUPPORT
 #if SDCARDDETECT == -1
 static void lcd_sd_refresh()
 {
@@ -663,6 +672,7 @@ void lcd_sdcard_menu()
     }
     END_MENU();
 }
+#endif //SDSUPPORT
 
 #define menu_edit_type(_type, _name, _strFunc, scale) \
     void menu_edit_ ## _name () \
@@ -781,6 +791,7 @@ static void menu_action_function(menuFunc_t data)
 {
     (*data)();
 }
+#ifdef SDSUPPORT
 static void menu_action_sdfile(const char* filename, char* longFilename)
 {
     char cmd[30];
@@ -797,6 +808,7 @@ static void menu_action_sddirectory(const char* filename, char* longFilename)
     card.chdir(filename);
     encoderPosition = 0;
 }
+#endif //SDSUPPORT
 static void menu_action_setting_edit_bool(const char* pstr, bool* ptr)
 {
     *ptr = !(*ptr);
@@ -939,14 +951,22 @@ void lcd_setstatus(const char* message)
 {
     if (lcd_status_message_level > 0)
         return;
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60
+    strncpy(lcd_status_message, message, LCD_WIDTH*2);
+#else        
     strncpy(lcd_status_message, message, LCD_WIDTH);
+#endif
     lcdDrawUpdate = 2;
 }
 void lcd_setstatuspgm(const char* message)
 {
     if (lcd_status_message_level > 0)
         return;
+#if LANGUAGE_CHOICE == 6 || LANGUAGE_CHOICE == 60
+    strncpy_P(lcd_status_message, message, LCD_WIDTH*2);
+#else        
     strncpy_P(lcd_status_message, message, LCD_WIDTH);
+#endif
     lcdDrawUpdate = 2;
 }
 void lcd_setalertstatuspgm(const char* message)

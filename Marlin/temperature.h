@@ -108,6 +108,20 @@ FORCE_INLINE bool isCoolingBed() {
   return target_temperature_bed < current_temperature_bed;
 };
 
+// Reprapology Pt1000 calibration needs these values exposed.
+
+extern int current_temperature_raw[EXTRUDERS];
+extern int current_temperature_bed_raw;
+
+FORCE_INLINE float degBedRaw() {
+  return current_temperature_bed_raw;
+};
+
+FORCE_INLINE float degHotendRaw(uint8_t extruder) {  
+  return current_temperature_raw[extruder];
+};
+
+
 #define degHotend0() degHotend(0)
 #define degTargetHotend0() degTargetHotend(0)
 #define setTargetHotend0(_celsius) setTargetHotend((_celsius), 0)

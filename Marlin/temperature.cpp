@@ -615,10 +615,14 @@ static float analog2temp(int raw, uint8_t e) {
       SERIAL_ERRORLNPGM(" - Invalid extruder number !");
       kill();
   }
+
    #ifdef HEATER_0_USES_PT1000
    // Reprapology PT1000
+   if (e == 0) 
+   {
       return map(raw/OVERSAMPLENR,minRE,maxRE,minVE,maxVE); 
-   #else
+   }
+   #endif
   
   #ifdef HEATER_0_USES_MAX6675
     if (e == 0)
