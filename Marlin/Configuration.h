@@ -273,8 +273,8 @@
   #define ENDSTOPPULLUP_XMAX
   #define ENDSTOPPULLUP_YMAX
   #define ENDSTOPPULLUP_ZMAX
-  #define ENDSTOPPULLUP_XMIN
-  #define ENDSTOPPULLUP_YMIN
+  //#define ENDSTOPPULLUP_XMIN
+  //#define ENDSTOPPULLUP_YMIN
   //#define ENDSTOPPULLUP_ZMIN
 #endif
 
@@ -505,6 +505,9 @@ const bool Z_PROBE_INVERTING = true; // In Reprapology motherboards, Z probe is 
   #define ULTRA_LCD
   #define ULTIPANEL
   #define NEWPANEL
+  #define TONE_CAPABLE_PANEL // Defined if the panel has a beeper, rather than a buzzer connected. Comment this line out if you have an older one.
+  #define PROBE_TONE_FREQUENCY 4000
+  #define PROBE_TONE_LENGTH 1500
   //#define SDSUPPORT
 #endif
 

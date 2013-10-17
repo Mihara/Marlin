@@ -17,6 +17,8 @@
 #if MOTHERBOARD == 778 // Reprapology v1.3 motherboard.
 #define KNOWN_BOARD
 
+#define LARGE_FLASH true
+
 #define DEFAULT_minVE 31
 #define DEFAULT_minRE 616
 #define DEFAULT_maxVE 252

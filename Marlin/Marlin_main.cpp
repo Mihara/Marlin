@@ -1848,23 +1848,50 @@ void process_commands()
                // Should set an LCD message while waiting.
      {
        LCD_MESSAGEPGM(MSG_PROBEWAIT);
-
+       
        // Mihara: This should, in theory, be something else, and on later machines it will need changing.
+       #if defined(TONE_CAPABLE_PANEL)
+       unsigned long tonedelay = micros();
+       boolean tonestate = true;
+       #endif
+       
        #if defined(BEEPER) && BEEPER > -1
-           SET_OUTPUT(BEEPER);
-           WRITE(BEEPER,HIGH);
+          #if defined(TONE_CAPABLE_PANEL)
+            tone(BEEPER, PROBE_TONE_FREQUENCY);
+          #else 
+            SET_OUTPUT(BEEPER);
+            WRITE(BEEPER,HIGH);
+          #endif
        #endif
 
        while (true) {
            manage_heater();
            lcd_update();
-           bool probestate = READ(Z_MIN_PIN)^Z_PROBE_INVERTING;          
+           
+           #if defined(TONE_CAPABLE_PANEL)
+           if (millis()-tonedelay > PROBE_TONE_LENGTH) {
+              tonedelay = millis();
+              if (tonestate) {
+                noTone(BEEPER);
+                tonestate = false;
+              } else {
+                tone (BEEPER, PROBE_TONE_FREQUENCY);
+                tonestate = true;
+             }
+           }
+           #endif
+           
+           bool probestate = READ(Z_MIN_PIN)^Z_PROBE_INVERTING;
            if (!probestate) break;
            
          };
          
        #if defined(BEEPER) && BEEPER > -1  
-       WRITE(BEEPER,LOW);
+         #if defined(TONE_CAPABLE_PANEL)
+           if (tonestate) noTone(BEEPER);
+         #else
+           WRITE(BEEPER,LOW);
+         #endif
        #endif
        LCD_MESSAGEPGM(MSG_PROBEDROPPED);
      }
